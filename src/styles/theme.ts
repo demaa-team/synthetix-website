@@ -35,7 +35,7 @@ export const theme = {
 		gray2: '#FAFBFB',
 
 		// Primary palette
-		cyan: '#00D1FF',
+		cyan: '#F86C29',
 		purple: '#402FC8',
 		pink: '#ED1EFF',
 
@@ -44,7 +44,7 @@ export const theme = {
 		orange: '#FC8738',
 		yellow: '#FFD75C',
 
-		bgBlack: '#06061B',
+		bgBlack: '#203298',
 	},
 
 	fonts: {

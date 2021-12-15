@@ -13,7 +13,7 @@ const FooterComponent: FC<FooterComponentProps> = ({ className, ...rest }) => (
 			<Logo small={true} />
 		</Left>
 		<Right>
-			<Menu />
+			<Menu isFooter={true}/>
 			<FooterSocials />
 		</Right>
 	</Footer>
@@ -21,11 +21,11 @@ const FooterComponent: FC<FooterComponentProps> = ({ className, ...rest }) => (
 
 const Footer = styled.footer`
 	position: relative;
-	height: 159px;
+	height: 178px;
 	width: 100%;
-	padding: 0 66px 0 114px;
-	background-color: ${(props) => props.theme.colors.bgBlack};
-
+	padding: 0 188px;
+	/* background-color: ${(props) => props.theme.colors.bgBlack}; */
+	background: #1A215B;
 	display: flex;
 	align-items: center;
 	justify-content: space-between;

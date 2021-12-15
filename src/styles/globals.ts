@@ -10,7 +10,7 @@ export const GlobalStyle = createGlobalStyle`
 		${theme.fonts.body};
 
 		&.fixed {
-			overflow: hidden;
+			/* overflow: hidden; */
 		}
 
 		padding: 0;

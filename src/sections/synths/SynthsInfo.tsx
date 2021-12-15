@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import media from 'styled-media-query';
 import { theme } from 'src/styles/theme';
 import { resetButtonCSS } from 'src/styles/common';
@@ -10,6 +10,7 @@ import useSynthetixTokenList from 'src/queries/tokenLists/useSynthetixTokenList'
 import useExchangeInfoQuery from 'src/queries/exchangeInfo/useExchangeInfoQuery';
 
 import SynthCard from './SynthCard';
+import { useRouter } from 'next/router'
 import { keyBy } from 'lodash';
 
 enum SynthCategory {
@@ -18,18 +19,21 @@ enum SynthCategory {
 	FOREX = 'forex',
 	EQUITIES = 'equities',
 	COMMODITY = 'commodity',
+	INDEX='index'
 }
 
 const SYNTH_CATEGORIES = Object.values(SynthCategory);
 
 const SynthsInfo = () => {
+	const {query} = useRouter();
+
 	const [synthCategory, setSynthCategory] = useState<SynthCategory>(SynthCategory.ALL);
 	const synthetixTokenListQuery = useSynthetixTokenList();
 	const synthetixTokensMap = synthetixTokenListQuery.isSuccess
 		? synthetixTokenListQuery.data.tokensMap ?? null
 		: null;
 	const synths = snxjs.synths;
-
+	
 	const filteredSynths = useMemo(
 		() =>
 			synthCategory !== SynthCategory.ALL
@@ -43,10 +47,17 @@ const SynthsInfo = () => {
 
 	const exchangeRates = exchangeInfo?.rates ?? null;
 	const exchangeFees = exchangeInfo?.fees ?? null;
+	const placeHolder=filteredSynths.length%3===0?[]:Array(3-(filteredSynths.length%3)).fill(0);
+
+	useEffect(()=>{
+		const {categories}=query;
+		
+		setSynthCategory(!categories ? SynthCategory.ALL:categories as SynthCategory);
+	},[query])
 
 	return (
 		<>
-			<Categories>
+			{/* <Categories>
 				{SYNTH_CATEGORIES.map((category) => {
 					const active = synthCategory === category;
 
@@ -62,7 +73,7 @@ const SynthsInfo = () => {
 						</Button>
 					);
 				})}
-			</Categories>
+			</Categories> */}
 			<Cards>
 				{filteredSynths.map((synth) => {
 					const currencyKey = synth.name;
@@ -74,16 +85,24 @@ const SynthsInfo = () => {
 
 					return <SynthCard key={currencyKey} {...{ synth, tokenInfo, price, exchangeFeeRate }} />;
 				})}
+				{
+					placeHolder.map((v,i)=><PlaceHolderStyle key={i}/>)
+				}
 			</Cards>
 		</>
 	);
 };
 const Cards = styled.div`
 	padding-bottom: 120px;
-	display: grid;
+	/* display: grid;
 	grid-template-columns: repeat(3, 1fr);
-	grid-gap: 35px;
-
+	justify-content: center;
+	grid-gap: 35px; */
+	margin-top:-154px;
+    display: flex;
+    flex-wrap: wrap;
+	justify-content: center;
+	
 	${media.lessThan('medium')`
 		grid-template-columns: 1fr;
 		justify-items: center;
@@ -117,5 +136,11 @@ const Button = styled.button<{ active: boolean }>`
 		margin-right: 18px;
 	`}
 `;
+
+const PlaceHolderStyle=styled.div`
+	width: 484px;
+	height: 640px;
+	margin: 16px;
+`
 
 export default SynthsInfo;

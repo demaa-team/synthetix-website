@@ -29,9 +29,10 @@ export const PageLayout = styled(Layout)`
 	.container {
 		justify-content: initial;
 		align-items: initial;
-		max-width: 1200px;
+		/* max-width: 1200px; */
+		max-width: 1920px;
 		margin: 0 auto;
-		padding: 125px 20px 0 20px;
+		/* padding: 125px 20px 0 20px; */
 		${media.lessThan('medium')`
 			padding-top: 85px;
 		`}
@@ -42,18 +43,17 @@ export const CardGradient = styled.div`
 	position: absolute;
 	top: 0;
 	left: 0;
-	width: 100%;
-	height: 6px;
-	background: linear-gradient(88.63deg, #00d1ff -14.83%, #ed1eff 108.22%);
+	width: 4px;
+	height: 345px;
+	background:#5C6CF2;
+	/* background: linear-gradient(88.63deg, #00d1ff -14.83%, #ed1eff 108.22%); */
 `;
 
 export const Card = styled.div`
-	width: 360px;
-	height: 298px;
+	width: 484px;
+	height: 640px;
 	position: relative;
-	padding: 24px 0;
-
-	background: #1c1c3d;
+	background: #25329C;
 	box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.2);
 
 	${media.lessThan('medium')`
@@ -61,9 +61,12 @@ export const Card = styled.div`
 	`}
 
 	&:hover {
-		background: #161b44;
+		/* background: #161b44; */
+		box-shadow: 0 0 28px -12px #000;
+		background:#2839C1;
 		${CardGradient} {
-			background: ${(props) => props.theme.colors.cyan};
+			/* background: ${(props) => props.theme.colors.cyan}; */
+			background: #F86C29;
 		}
 	}
 `;

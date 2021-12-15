@@ -61,40 +61,49 @@ const SynthCard: FC<SynthCardProps> = ({ synth, tokenInfo, price, exchangeFeeRat
 		<ExternalLink href={`https://kwenta.io/exchange/${currencyKey}`}>
 			<StyledCard>
 				<CardGradient />
-				<FlexDivCentered>
-					<SynthImageContainer>
+				<FlexDivCentered style={{width:'100%'}}>
+					{/* <SynthImageContainer>
 						{logoURI ? <img src={logoURI} alt="" /> : <Placeholder>{currencyKey}</Placeholder>}
-					</SynthImageContainer>
-					<div>
+					</SynthImageContainer> */}
+
+					<Wrapper>
 						<SynthSymbol>{currencyKey}</SynthSymbol>
-						<div>
+						<div className="usdPrice">
 							<SynthPriceLabel>usd price</SynthPriceLabel>
 							<SynthPrice>
 								{price != null ? formatFiatCurrency(price, { sign: '$' }) : '-'}
 							</SynthPrice>
 						</div>
-					</div>
+					</Wrapper>
 				</FlexDivCentered>
-				<SynthDescription>{synthDescription}</SynthDescription>
-				<FlexDivRowCentered>
+				<FlexDivRowCentered className="feeWrapper">
 					<FeeInfo>fee: {exchangeFeeRate != null ? formatPercent(exchangeFeeRate) : '-'}</FeeInfo>
 					<Status synthStatus={synthStatus}>
-						<StatusDot /> {synthStatus}
+						<StatusDot /> 
+						<StatusText>{synthStatus}</StatusText>
 					</Status>
 				</FlexDivRowCentered>
+				<SynthDescription>{synthDescription}</SynthDescription>
+				
+				<RoundArrow></RoundArrow>
 			</StyledCard>
 		</ExternalLink>
 	);
 };
 
 const StyledCard = styled(Card)`
-	padding: 30px;
+	/* padding: 30px; */
+	padding: 45px 73px 45px 88px;
+	margin: 16px;
 	${media.lessThan('medium')`
 		width: 100%;
     	max-width: 360px;
 	`}
-	display: grid;
-	grid-template-rows: auto 1fr auto;
+	/* display: grid;
+	grid-template-rows: auto 1fr auto; */
+	.feeWrapper{
+		margin-top: 100px;
+	}
 `;
 
 const Placeholder = styled(FlexDivCentered)`
@@ -118,61 +127,75 @@ const SynthImageContainer = styled.div`
 `;
 
 const SynthSymbol = styled.div`
-	font-family: GT America;
-	font-weight: 900;
-	font-stretch: expanded;
-	font-size: 24px;
-	line-height: 48px;
+	font-family: MicrosoftYaHei-Bold,GT America;
+	font-weight: bold;
+	/* font-stretch: expanded; */
+	font-size: 30px;
+	/* line-height: 48px; */
+	letter-spacing: 1px;
 	color: ${(props) => props.theme.colors.white};
 `;
 
 const SynthPriceLabel = styled.div`
-	font-family: GT America;
-	font-weight: 700;
-	font-stretch: condensed;
-	color: ${(props) => props.theme.colors.gray55};
+	font-family: Microsoft YaHe,GT America;
+	/* font-weight: 400; */
+	/* font-stretch: condensed; */
+	/* color: ${(props) => props.theme.colors.gray55}; */
 	text-transform: uppercase;
+	color: #fff;
+	font-size:20px;
 `;
 
 const SynthPrice = styled.div`
-	font-family: GT America;
-	font-weight: 700;
+	font-family: Microsoft YaHei;;
+	font-weight: bold;
 	font-stretch: expanded;
-	color: ${(props) => props.theme.colors.white};
-	font-size: 16px;
+	/* color: ${(props) => props.theme.colors.white}; */
+	font-size: 30px;
+	color:#F86C29;
 `;
 
 const SynthDescription = styled(FlexDivCentered)`
-	font-size: 14px;
-	line-height: 20px;
-	color: ${(props) => props.theme.colors.gray20};
+	margin-top: 80px;
+	font-size: 18px;
+	line-height: 28px;
+	/* color: ${(props) => props.theme.colors.gray20}; */
+	color: #E5E9FA;
 `;
 
 const FeeInfo = styled.div`
 	color: ${(props) => props.theme.colors.white};
-	font-size: 14px;
+	font-size: 24px;
 	line-height: 24px;
 	text-transform: uppercase;
-	font-family: GT America;
+	/* font-family: GT America; */
+	font-family: Microsoft YaHei;
 	font-weight: 700;
 	font-stretch: condensed;
 `;
 
 const StatusDot = styled.div`
-	width: 10px;
-	height: 10px;
-	box-shadow: 0px 0px 10px rgba(0, 209, 255, 0.5);
-	margin-right: 8px;
-	border-radius: 50%;
+	width: 22px;
+	height: 18px;
+	/* box-shadow: 0px 0px 10px rgba(0, 209, 255, 0.5); */
+	margin-right: 16px;
+	background: url('synths/live-icon.png') no-repeat center;
+	background-size: 100%;
 `;
+const StatusText=styled.div`
+	font-size: 24px;
+	font-family: Microsoft YaHei;
+	font-weight: bold;
+	color: #F86C29;
+`
 
 const Status = styled(FlexDivCentered)<{ synthStatus: SynthStatus }>`
 	text-transform: uppercase;
 	font-family: GT America;
 	font-weight: 700;
 	font-stretch: condensed;
-
-	${(props) => {
+	/* TODO LIVE 状态变化 */
+	/* ${(props) => {
 		switch (props.synthStatus) {
 			case SynthStatus.LIVE: {
 				return css`
@@ -206,7 +229,25 @@ const Status = styled(FlexDivCentered)<{ synthStatus: SynthStatus }>`
 					}
 				`;
 		}
-	}}
+	}} */
 `;
+
+const Wrapper=styled.div`
+	width: 100%;
+	.usdPrice{
+		width:100%;
+		margin-top: 26px;
+		display: flex;
+		justify-content: space-between;
+	}
+`
+
+const RoundArrow=styled.div`
+	width:38px;
+	height:38px;
+	margin: 120px auto 0;
+	background: url('synths/round-arrow.png') no-repeat center;
+	background-size: 100%;
+`
 
 export default SynthCard;
